@@ -16,8 +16,7 @@ var jsalarm={
 	padfield:function(f){
 		return (f<10)? "0"+f : f
 	},
-	/* Due to the window.open input you must ALLOW POP UPS FOR THIS 
-	WEBSITE SO THAT THE ALARM WILL PLAY*/
+	/* Function for the timer and sound for the alarm*/
 	showcurrenttime:function(){
 		var dateobj=new Date()
 		var ct=this.padfield(dateobj.getHours())+":"+this.padfield(dateobj.getMinutes())+":"+this.padfield(dateobj.getSeconds())
@@ -26,7 +25,7 @@ var jsalarm={
 		if (typeof this.hourwake!="undefined"){ //if alarm is set
 			if (this.ctref.title==(this.hourwake+":"+this.minutewake+":"+this.secondwake)){
 				clearInterval(jsalarm.timer)
-				window.open("Alarm.mp3")
+				document.getElementById('Alarm.mp3').play();
 			}
 		}
 	},
@@ -41,7 +40,7 @@ var jsalarm={
 			this.disabled=true
 			return false
 		}
-		/* ALLOW POP UPS FOR THIS WEBSITE SO THAT THE ALARM WILL PLAY*/
+		/* Function for the sound of the snooze/reset button*/
 		this.resetref=document.getElementById("resetbutton")
 		this.resetref.onclick=function(){
 		jsalarm.submitref.disabled=false
@@ -49,7 +48,7 @@ var jsalarm={
 		jsalarm.hourselect.disabled=false
 		jsalarm.minuteselect.disabled=false
 		jsalarm.secondselect.disabled=false
-		window.open("Snooze.mp3")
+		document.getElementById('Snooze.mp3').play();
 
 		}
 
@@ -84,6 +83,9 @@ var jsalarm={
 
 
 <body>
+
+<audio id="Snooze.mp3" src="Snooze.mp3"></audio>
+<audio id="Alarm.mp3" src="Alarm.mp3"></audio>
 
 </div>
 <!-- divs for buttons and backgrounds - self explanatory -->
@@ -178,7 +180,7 @@ renderTime();
 
 </script>
 <!-- The html content for the alram clock minus the buttons -->
-<div id="test" style="	opacity: .8;
+<div id="test" style="	opacity: .4;
 	background-color: #B1DCF4; width: 50%;
 	top: 34%; z-index: 8; color: #1487D7; text-align: center; height: 8%; font-weight: bolder; font-size: 17px; font-family: 'Diplomata SC', cursive; left: 7%;">
 <form action="" method="">
