@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="stylesheet" type="text/css" href="index.css">
+<link rel="stylesheet" type="text/javascript" href="index.js">
+	<title> Shauna's Kawaii Alarm Clock</title>
+	<link href="https://fonts.googleapis.com/css?family=Luckiest+Guy" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Ranga" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Diplomata+SC|Londrina+Shadow" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <!--JQuery file, credited bellow -->
+	<script type="text/javascript">
+
+var jsalarm={
+	padfield:function(f){
+		return (f<10)? "0"+f : f
+	},
+	/* Due to the window.open input you must ALLOW POP UPS FOR THIS 
+	WEBSITE SO THAT THE ALARM WILL PLAY*/
+	showcurrenttime:function(){
+		var dateobj=new Date()
+		var ct=this.padfield(dateobj.getHours())+":"+this.padfield(dateobj.getMinutes())+":"+this.padfield(dateobj.getSeconds())
+		this.ctref.innerHTML=ct
+		this.ctref.setAttribute("title", ct)
+		if (typeof this.hourwake!="undefined"){ //if alarm is set
+			if (this.ctref.title==(this.hourwake+":"+this.minutewake+":"+this.secondwake)){
+				clearInterval(jsalarm.timer)
+				window.open("Alarm.mp3")
+			}
+		}
+	},
+	/*Function for the alarm button*/
+	init:function(){
+		var dateobj=new Date()
+		this.ctref=document.getElementById("jsalarm_ct")
+		this.submitref=document.getElementById("submitbutton")
+		this.submitref.onclick=function(){
+			jsalarm.setalarm()
+			this.value="Alarming"
+			this.disabled=true
+			return false
+		}
+		/* ALLOW POP UPS FOR THIS WEBSITE SO THAT THE ALARM WILL PLAY*/
+		this.resetref=document.getElementById("resetbutton")
+		this.resetref.onclick=function(){
+		jsalarm.submitref.disabled=false
+		jsalarm.hourwake=undefined
+		jsalarm.hourselect.disabled=false
+		jsalarm.minuteselect.disabled=false
+		jsalarm.secondselect.disabled=false
+		window.open("Snooze.mp3")
+
+		}
+
+		var selections=document.getElementsByTagName("select")
+		this.hourselect=selections[0]
+		this.minuteselect=selections[1]
+		this.secondselect=selections[2]
+		for (var i=0; i<60; i++){
+			if (i<24) //If still within range of hours field: 0-23
+			this.hourselect[i]=new Option(this.padfield(i), this.padfield(i), false, dateobj.getHours()==i)
+			this.minuteselect[i]=new Option(this.padfield(i), this.padfield(i), false, dateobj.getMinutes()==i)
+			this.secondselect[i]=new Option(this.padfield(i), this.padfield(i), false, dateobj.getSeconds()==i)
+
+		}
+		jsalarm.showcurrenttime()
+		jsalarm.timer=setInterval(function(){jsalarm.showcurrenttime()}, 1000)
+	},
+	/*Sets alarm*/
+	setalarm:function(){
+		this.hourwake=this.hourselect.options[this.hourselect.selectedIndex].value
+		this.minutewake=this.minuteselect.options[this.minuteselect.selectedIndex].value
+		this.secondwake=this.secondselect.options[this.secondselect.selectedIndex].value
+		this.hourselect.disabled=true
+		this.minuteselect.disabled=true
+		this.secondselect.disabled=true
+	}
+}
+
+</script>
+</head>
+
+
+
+<body>
+
+</div>
+<!-- divs for buttons and backgrounds - self explanatory -->
+<div id="dreaming">
+<span style="opacity: 0; font-size: 124px;">Test</span>
+</div>
+
+<button id="buttona" type="button" style="opacity: 0.7"> Power </button>
+
+<div id="clock" style="opacity: 0.9">
+
+	<div id="pulse"></div>
+	<div id="time"> 
+
+	</div>
+<div class="buttons">
+ 
+<button id="submitbutton" type="button" style="background-color: #FFC5D0;
+    border: 5% black;
+      border-radius: 7px;
+    color: #1487D7;
+     margin-left: 4%;
+    margin-right: 4%;
+    text-align: center;
+    text-decoration: none;
+  padding: 2px 44px 2px 44px; 
+    font-size: 24px;
+     opacity: .9;
+      font-family: 'Ranga', cursive;
+      font-weight: bolder;
+      box-shadow: 3px 3px 2px black; display: inline-block; position: fixed;
+      top: 46%; left: -1%"> Alarm </button> 
+<button id="resetbutton" type="button" style="background-color: #FFC5D0;
+    border: 5% black;
+      border-radius: 7px;
+    color: #1487D7;
+     margin-left: 4%;
+    margin-right: 4%;
+    text-align: center;
+    text-decoration: none;
+  padding: 2px 44px 2px 44px; 
+    font-size: 24px;
+     opacity: .9;
+      font-family: 'Ranga', cursive;
+      font-weight: bolder;
+      box-shadow: 3px 3px 2px black; display: inline-block; position: fixed;
+      top: 46%; left: 13%"> Snooze </button>
+
+<a href="https://youtu.be/dQw4w9WgXcQ"><button id="buttond" type="button"> Feeling &#9733 Lucky? </button></a>
+</div>
+</div>
+
+<script>
+/* https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js */
+$(document).ready(function(){
+    $("#buttona").click(function(){
+        $("#clock").fadeToggle();
+    });
+});
+
+/*Clock javascript seperate from alarm javascript*/
+function renderTime() {
+
+  var currentTime = new Date();
+  var diem = " AM "
+  var h = currentTime.getHours();
+  var m = currentTime.getMinutes();
+  var s = currentTime.getSeconds();
+  
+  if(h == 0){
+    h=12;
+  }else if ( h>12){
+    h=h-12;
+    deim = " PM ";
+  }
+   if(h<10){
+   h="0"+h;
+   }
+   if(m<10){
+   m="0"+m;
+   }
+   if(s<10){
+   s="0"+s;
+   }
+   
+   var myClock = document.getElementById('time');
+     myClock.textContent = h + ":" + m + ":" + s + " " + diem;
+   myClock.innerText = h + ":" + m + ":" + s + " " + diem;
+   setTimeout('renderTime()',1000);
+}
+renderTime();
+
+</script>
+<!-- The html content for the alram clock minus the buttons -->
+<div id="test" style="	opacity: .8;
+	background-color: #B1DCF4; width: 50%;
+	top: 34%; z-index: 8; color: #1487D7; text-align: center; height: 8%; font-weight: bolder; font-size: 17px; font-family: 'Diplomata SC', cursive; left: 7%;">
+<form action="" method="">
+<div id="jsalarmclock">
+<div><span style=" font-size: -24px; opacity: 0" id="jsalarm_ct" style="letter-spacing: 2px"></span></div>
+<div><span><select></select> Hour</span> <span><select></select> Minutes</span> <span><select></select> Seconds</span></div>
+<div> <span style="font: normal 11px Tahoma"></span></div>
+
+</div>
+</form>
+
+
+<script type="text/javascript">
+/*http://www.javascriptkit.com/script/script2/alarm.shtml The last part of the alarm clock code*/
+jsalarm.init()
+
+</script>
+</div>
+
+</body>
+
+<footer id="ending"> 
+<marquee width="950" height="360" behavior="alternate"> &copy 2017 _ Boss _ Shauna </marquee>
+</footer>
+
+</html>
